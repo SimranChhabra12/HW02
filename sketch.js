@@ -1,7 +1,6 @@
 let classifier;
 let soundModel = 'https://teachablemachine.withgoogle.com/models/6H9YQulOm/';
 
-// Variables to help “hold” the drawn shapes
 let currentLabel = "";
 let lastUpdateTime = 0;
 let holdDuration = 20000; // in milliseconds
@@ -9,7 +8,7 @@ let holdDuration = 20000; // in milliseconds
 function preload() {
   console.log(">>> preload() called");
   
-  // Increase the probability threshold to reduce sensitivity
+  // Probability threshold to reduce sensitivity
   classifier = ml5.soundClassifier(
     soundModel + 'model.json',
     { probabilityThreshold: 0.85 },
@@ -56,16 +55,16 @@ function gotResults(error, results) {
     return;
   }
   
-  // Extract the label and confidence from the first result
+  // Label and confidence from the first result
   let newLabel = results[0].label;
   let confidence = results[0].confidence;
   
-  // Only update if the label has changed or if the hold time has elapsed.
+  // Only update if the label has changed or if the hold time is over
   if (newLabel !== currentLabel || (millis() - lastUpdateTime) > holdDuration) {
     currentLabel = newLabel;
     lastUpdateTime = millis();
     
-    // Clear the canvas and display the result text
+
     background(0);
     fill(255);
     textSize(24);
